@@ -3,5 +3,8 @@ class ProfilePredictor:
         return {
             'known': ['Python', 'Web'],
             'unknown': ['Java'],
-            'courses': ['How to be Java developer'],
+            'courses': [{
+                'url': 'http://https://www.udemy.com/course/java-tutorial/',
+                'name': 'How to be Java developer',
+            }],
         }

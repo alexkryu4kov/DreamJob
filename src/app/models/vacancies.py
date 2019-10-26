@@ -4,4 +4,5 @@ class VacanciesPredictor:
             'name': f'{name} developer',
             'level': level,
             'salary': 31000,
+            'skills': ['Python', 'Web', 'Java'],
         }
