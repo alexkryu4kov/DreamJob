@@ -1,7 +1,7 @@
 from aiohttp.web import Application
 from aiohttp import web
 
-from app.settings import setup_profile_predictor, setup_skills_predictor, setup_spec_predictor, setup_vacancies_predictor
+from app import settings
 
 from app.routes import setup_routes
 
@@ -10,10 +10,10 @@ async def init_app():
     """Иницализация приложения."""
     app = Application()
     setup_routes(app)
-    app.on_startup.append(setup_spec_predictor)
-    app.on_startup.append(setup_vacancies_predictor)
-    app.on_startup.append(setup_skills_predictor)
-    app.on_startup.append(setup_profile_predictor)
+    app.on_startup.append(settings.setup_spec_predictor)
+    app.on_startup.append(settings.setup_vacancies_predictor)
+    app.on_startup.append(settings.setup_skills_predictor)
+    app.on_startup.append(settings.setup_profile_predictor)
     return app
 
 
