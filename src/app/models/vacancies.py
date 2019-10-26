@@ -12,6 +12,6 @@ class VacanciesPredictor:
         ]
 
     def get_vacancies(self, name, level, db):
-        db.cur.execute(f"SELECT * FROM vacancies WHERE name='{name}' AND level='{level}';")
+        db.cur.execute(f"SELECT * FROM vacancies WHERE name='{name}' AND level='{level.capitalize()}';")
         row_data = db.cur.fetchall()
         return self.create_list_of_vacancies(row_data)
