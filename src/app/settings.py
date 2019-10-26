@@ -1,6 +1,7 @@
 from aiohttp.web_app import Application
 
-from app.external.db import DbWorker, db_config
+from app.external.config import db_config
+from app.external.db import DbWorker
 from app.models.spec import SpecPredictor
 from app.models.skills import SkillsPredictor
 from app.models.vacancies import VacanciesPredictor
