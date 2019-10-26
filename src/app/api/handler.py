@@ -31,7 +31,7 @@ async def profile_known_handler(request):
     return web.json_response(known_response_data)
 
 
-async def profile_unknown_handler_get(request):
+async def profile_unknown_handler(request):
     email = request.rel_url.query['email']
     response_data = request.app['profile_predictor'].get_profile(email)
     unknown_response_data = {key: response_data[key] for key in ['unknown', 'courses']}
@@ -39,7 +39,7 @@ async def profile_unknown_handler_get(request):
     return web.json_response(unknown_response_data)
 
 
-async def profile_unknown_handler_post(request):
+async def profile_complete_handler(request):
     request_data = await request.json()
     response_data = request.app['profile_predictor'].post_profile(request_data)
 
