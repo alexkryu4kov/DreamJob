@@ -11,7 +11,7 @@ async def spec_handler(request):
 async def vacancies_handler(request):
     name = request.rel_url.query['name']
     level = request.rel_url.query['lvl']
-    response_data = request.app['vacancies_predictor'].get_vacancies(name, level)
+    response_data = request.app['vacancies_predictor'].get_vacancies(name, level, request.app['db'])
 
     return web.json_response(response_data)
 
