@@ -46,6 +46,6 @@ async def profile_score_handler(request):
 
 async def profile_complete_handler(request):
     request_data = await request.json()
-    response_data = request.app['profile_predictor'].post_profile(request_data)
+    response_data = request.app['profile_predictor'].post_profile(request_data, request.app['db'])
 
     return web.json_response(response_data)
