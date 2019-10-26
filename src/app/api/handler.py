@@ -25,18 +25,16 @@ async def skills_handler(request):
 
 async def profile_known_handler(request):
     email = request.rel_url.query['email']
-    response_data = request.app['profile_predictor'].get_profile(email)
-    known_response_data = {key: response_data[key] for key in ['known']}
+    response_data = request.app['profile_predictor'].get_known(email)
 
-    return web.json_response(known_response_data)
+    return web.json_response(response_data)
 
 
 async def profile_unknown_handler(request):
     email = request.rel_url.query['email']
-    response_data = request.app['profile_predictor'].get_profile(email)
-    unknown_response_data = {key: response_data[key] for key in ['unknown', 'courses']}
+    response_data = request.app['profile_predictor'].get_unknown(email)
 
-    return web.json_response(unknown_response_data)
+    return web.json_response(response_data)
 
 
 async def profile_complete_handler(request):
