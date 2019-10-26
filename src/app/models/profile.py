@@ -7,6 +7,14 @@ class ProfilePredictor:
             'known': skills,
         }
 
+    def get_courses(self, skill, db):
+        db.cur.execute(f"SELECT * FROM courses WHERE skill='{skill}'")
+        data = db.cur.fetchall()
+        return {
+            'url': data[0].url,
+            'name': data[0].name
+            }
+
     def get_unknown(self, email, db):
         db.cur.execute(f"SELECT * FROM email_unknown WHERE email='{email}'")
         data = db.cur.fetchall()
@@ -14,11 +22,7 @@ class ProfilePredictor:
         return [
             {
                 'name': skill,
-                'courses': [{
-                    'url': 'http://https://www.udemy.com/course/java-tutorial/',
-                    'name': 'How to be Java developer',
-                }
-                ]
+                'courses': [self.get_courses(skill, db)]
             }
             for skill in skills
         ]
