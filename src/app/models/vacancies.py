@@ -4,6 +4,7 @@ class VacanciesPredictor:
             'name': f'{name} developer',
             'level': level,
             'company_name': 'CFT',
+            'city': 'Moscow',
             'salary': 31000,
             'skills': ['Python', 'Web', 'Java'],
         }
