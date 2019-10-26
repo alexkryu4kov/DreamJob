@@ -1,32 +1,26 @@
 class ProfilePredictor:
-    def get_known(self, email):
+    def get_known(self, email, db):
+        db.cur.execute(f"SELECT * FROM email_known WHERE email='{email}'")
+        data = db.cur.fetchall()
+        skills = [row.known for row in data]
         return {
-            'known': ['Python', 'Web']
+            'known': skills,
         }
 
-    def get_unknown(self, email):
+    def get_unknown(self, email, db):
+        db.cur.execute(f"SELECT * FROM email_unknown WHERE email='{email}'")
+        data = db.cur.fetchall()
+        skills = [row.unknown for row in data]
         return [
             {
-                'name': 'Java',
+                'name': skill,
                 'courses': [{
                     'url': 'http://https://www.udemy.com/course/java-tutorial/',
                     'name': 'How to be Java developer',
-                }],
-            },
-            {
-                'name': 'Python',
-                'courses': [{
-                    'url': 'http://https://www.udemy.com/course/python-tutorial/',
-                    'name': 'How to be Python developer',
-                }],
-            },
-            {
-                'name': 'Web',
-                'courses': [{
-                    'url': 'http://https://www.udemy.com/course/web-tutorial/',
-                    'name': 'How to be Web developer',
-                }],
+                }
+                ]
             }
+            for skill in skills
         ]
 
     def post_profile(self, data):
