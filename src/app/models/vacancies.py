@@ -3,6 +3,7 @@ class VacanciesPredictor:
         return {
             'name': f'{name} developer',
             'level': level,
+            'company_name': 'CFT',
             'salary': 31000,
             'skills': ['Python', 'Web', 'Java'],
         }
