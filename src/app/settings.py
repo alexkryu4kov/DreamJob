@@ -34,7 +34,7 @@ async def setup_db(aioapp: Application):
 
 
 def create_list_of_names(data: list) -> list:
-    return [row.name.lower() for row in data]
+    return list(set([row.name.lower() for row in data]))
 
 
 async def create_vacancies_names(app):
