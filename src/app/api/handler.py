@@ -37,6 +37,13 @@ async def profile_unknown_handler(request):
     return web.json_response(response_data)
 
 
+async def profile_score_handler(request):
+    email = request.rel_url.query['email']
+    response_data = request.app['profile_predictor'].get_score(email, request.app['db'])
+
+    return web.json_response(response_data)
+
+
 async def profile_complete_handler(request):
     request_data = await request.json()
     response_data = request.app['profile_predictor'].post_profile(request_data)

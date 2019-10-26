@@ -23,6 +23,15 @@ class ProfilePredictor:
             for skill in skills
         ]
 
+    def get_score(self, email, db):
+        db.cur.execute(f"SELECT * FROM email_known WHERE email='{email}'")
+        known_data = db.cur.fetchall()
+        db.cur.execute(f"SELECT * FROM email_unknown WHERE email='{email}'")
+        unknown_data = db.cur.fetchall()
+        return {
+            'score': len(known_data)/(len(known_data)+len(unknown_data))
+        }
+
     def post_profile(self, data):
         return {
             'status': 'OK',
