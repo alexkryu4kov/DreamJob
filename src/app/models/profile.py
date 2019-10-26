@@ -7,21 +7,21 @@ class ProfilePredictor:
     def get_unknown(self, email):
         return [
             {
-                'name': ['Java'],
+                'name': 'Java',
                 'courses': [{
                     'url': 'http://https://www.udemy.com/course/java-tutorial/',
                     'name': 'How to be Java developer',
                 }],
             },
             {
-                'name': ['Python'],
+                'name': 'Python',
                 'courses': [{
                     'url': 'http://https://www.udemy.com/course/python-tutorial/',
                     'name': 'How to be Python developer',
                 }],
             },
             {
-                'name': ['Web'],
+                'name': 'Web',
                 'courses': [{
                     'url': 'http://https://www.udemy.com/course/web-tutorial/',
                     'name': 'How to be Web developer',
