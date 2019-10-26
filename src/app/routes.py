@@ -17,5 +17,5 @@ def setup_routes(app):
     cors.add(app.router.add_get('/vacancies', handler.vacancies_handler))
     cors.add(app.router.add_post('/skills', handler.skills_handler))
     cors.add(app.router.add_get('/profile/known', handler.profile_known_handler))
-    cors.add(app.router.add_get('/profile/unknown', handler.profile_unknown_handler))
-    cors.add(app.router.add_get('/profile/courses', handler.profile_courses_handler))
+    cors.add(app.router.add_get('/profile/unknown', handler.profile_unknown_handler_get))
+    cors.add(app.router.add_post('/profile/unknown', handler.profile_unknown_handler_post))

@@ -8,3 +8,8 @@ class ProfilePredictor:
                 'name': 'How to be Java developer',
             }],
         }
+
+    def post_profile(self, data):
+        return {
+            'status': 'OK',
+        }
