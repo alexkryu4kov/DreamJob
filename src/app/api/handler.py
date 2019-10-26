@@ -18,7 +18,7 @@ async def vacancies_handler(request):
 
 async def skills_handler(request):
     request_data = await request.json()
-    response_data = request.app['skills_predictor'].post_skills(request_data, request.app.db)
+    response_data = request.app['skills_predictor'].post_skills(request_data, request.app['db'])
 
     return web.json_response(response_data)
 
