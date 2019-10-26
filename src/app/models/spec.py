@@ -1,5 +1,6 @@
 class SpecPredictor:
-    def get_spec(self, current_string):
+    def get_spec(self, current_string, vacancies_names):
+        suggestions = [name for name in vacancies_names if name.startswith(current_string)]
         return {
-            'spec': [f'{current_string} developer'],
+            'spec': suggestions,
         }
