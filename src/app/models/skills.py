@@ -3,8 +3,12 @@ class SkillsPredictor:
         print(data)
         known = []
         unknown = []
+        skills = []
         email = data['email']
-        skills = data['skills']
+        for elem in data['skillsItemUiModel']:
+            skills.append({'name': elem['name'],
+                           'selected': elem['selected']['mValue'],
+                           })
         for skill in skills:
             if skill['selected']:
                 known.append(skill['name'])
