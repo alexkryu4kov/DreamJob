@@ -39,7 +39,7 @@ class ProfilePredictor:
     def post_profile(self, data, db):
         skill = data['skill']
         email = data['email']
-        db.cur.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}'")
+        db.cur.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}')")
         db.cur.execute(f"DELETE FROM email_unknown WHERE email='{email}' AND skill='{skill}'")
         return {
             'status': 'OK',
