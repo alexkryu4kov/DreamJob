@@ -14,7 +14,7 @@ class VacanciesPredictor:
     def get_list_of_skills(self, db, url):
         db.cur.execute(f"SELECT * FROM skills WHERE vacancy_url='{url}'")
         data = db.cur.fetchall()
-        return [row.skill for row in data]
+        return list(set([row.skill for row in data]))
 
     def get_vacancies(self, name, level, db):
         db.cur.execute(f"SELECT * FROM vacancies WHERE name='{name}' AND level='{level}';")
