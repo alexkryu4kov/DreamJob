@@ -33,7 +33,7 @@ class ProfilePredictor:
         db.cur.execute(f"SELECT * FROM email_unknown WHERE email='{email}'")
         unknown_data = db.cur.fetchall()
         return {
-            'score': len(known_data)/(len(known_data)+len(unknown_data))
+            'score': round(len(known_data)/(len(known_data)+len(unknown_data)), 2)
         }
 
     def post_profile(self, data, db):
