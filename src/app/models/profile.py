@@ -40,7 +40,7 @@ class ProfilePredictor:
         skill = data['skill']
         email = data['email']
         db.cur.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}')")
-        db.cur.execute(f"DELETE FROM email_unknown WHERE email='{email}' AND skill='{skill}'")
+        db.cur.execute(f"DELETE FROM email_unknown WHERE email='{email}' AND unknown='{skill}'")
         return {
             'status': 'OK',
         }
