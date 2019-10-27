@@ -32,9 +32,14 @@ class ProfilePredictor:
         known_data = db.cur.fetchall()
         db.cur.execute(f"SELECT * FROM email_unknown WHERE email='{email}'")
         unknown_data = db.cur.fetchall()
-        return {
-            'score': round(len(known_data)/(len(known_data)+len(unknown_data)), 2)
-        }
+        try:
+            return {
+                'score': round(len(known_data)/(len(known_data)+len(unknown_data)), 2),
+            }
+        except ZeroDivisionError:
+            return {
+                'score': 0,
+            }
 
     def post_profile(self, data, db):
         skill = data['skill']
