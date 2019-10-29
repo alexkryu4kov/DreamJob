@@ -7,7 +7,7 @@ class ProfilePredictor:
         db.cur.execute("SELECT * FROM email_known WHERE email=%s", (email,))
         data = db.cur.fetchall()
         print('data', data)
-        skills = [row.known for row in data]
+        skills = list(set([row.known for row in data]))
         print('skills', skills)
         return {
             'known': skills,
@@ -24,7 +24,7 @@ class ProfilePredictor:
     def get_unknown(self, email, db):
         db.cur.execute(f"SELECT * FROM email_unknown WHERE email='{email}'")
         data = db.cur.fetchall()
-        skills = [row.unknown for row in data]
+        skills = list(set([row.unknown for row in data]))
         return [
             {
                 'name': skill,
