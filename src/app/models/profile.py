@@ -4,7 +4,7 @@ class ProfilePredictor:
         db.cur.execute(f"SELECT * FROM email_known")
         test_data = db.cur.fetchall()
         print('test_data', test_data)
-        db.cur.execute(f"SELECT * FROM email_known WHERE email='{email}'")
+        db.cur.execute("SELECT * FROM email_known WHERE email=%s", (email,))
         data = db.cur.fetchall()
         print('data', data)
         skills = [row.known for row in data]
