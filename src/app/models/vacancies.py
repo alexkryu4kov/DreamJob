@@ -18,10 +18,6 @@ class VacanciesPredictor:
 
     def get_vacancies(self, name, level, db):
         email = 'Leha@idi.na'
-        db.cur.execute(f"SELECT * FROM email_known WHERE email={email}")
-        data = db.cur.fetchall()
-        print('data', data)
-        email = 'Leha@idi.na'
         db.cur.execute(f"SELECT * FROM email_known WHERE email='{email}'")
         test_data = db.cur.fetchall()
         print('test_data', test_data)
