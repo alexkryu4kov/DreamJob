@@ -1,8 +1,11 @@
 class ProfilePredictor:
     def get_known(self, email, db):
+        print('email', email)
         db.cur.execute(f"SELECT * FROM email_known WHERE email='{email}'")
         data = db.cur.fetchall()
+        print('data', data)
         skills = [row.known for row in data]
+        print('skills', skills)
         return {
             'known': skills,
         }

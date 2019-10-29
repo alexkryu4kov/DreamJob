@@ -1,6 +1,5 @@
 class SkillsPredictor:
     def post_skills(self, data, db):
-        print(data)
         known = []
         unknown = []
         skills = []
