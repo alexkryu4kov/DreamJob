@@ -1,41 +1,33 @@
 class ProfilePredictor:
-    def get_known(self, email, db):
-        print('email', email)
-        print('type', type(email))
-        db.cur.execute(f"SELECT * FROM email_known WHERE email='{email}'")
-        data = db.cur.fetchall()
-        print('data', data)
-        skills = list(set([row.known for row in data]))
-        print('skills', skills)
+    async def get_known(self, email, db):
+        data = await db.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
+        skills = list(set([row['known'] for row in data]))
         return {
             'known': skills,
         }
 
-    def get_courses(self, skill, db):
-        db.cur.execute(f"SELECT * FROM courses WHERE skill='{skill}'")
-        data = db.cur.fetchall()
+    async def get_courses(self, skill, db):
+        data = await db.fetch(f"SELECT * FROM courses WHERE skill='{skill}'")
         return {
-            'url': data[0].url,
-            'name': data[0].name
+            'url': data[0]['url'],
+            'name': data[0]['name'],
             }
 
-    def get_unknown(self, email, db):
-        db.cur.execute(f"SELECT * FROM email_unknown WHERE email='{email}'")
-        data = db.cur.fetchall()
-        skills = list(set([row.unknown for row in data]))
+    async def get_unknown(self, email, db):
+        data = await db.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
+        print(data)
+        skills = list(set([row['unknown'] for row in data]))
         return [
             {
                 'name': skill,
-                'courses': [self.get_courses(skill, db)]
+                'courses': [await self.get_courses(skill, db)]
             }
             for skill in skills
         ]
 
-    def get_score(self, email, db):
-        db.cur.execute(f"SELECT * FROM email_known WHERE email='{email}'")
-        known_data = db.cur.fetchall()
-        db.cur.execute(f"SELECT * FROM email_unknown WHERE email='{email}'")
-        unknown_data = db.cur.fetchall()
+    async def get_score(self, email, db):
+        known_data = await db.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
+        unknown_data = await db.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
         try:
             return {
                 'score': round(len(known_data)/(len(known_data)+len(unknown_data)), 2),
@@ -45,11 +37,11 @@ class ProfilePredictor:
                 'score': 0,
             }
 
-    def post_profile(self, data, db):
+    async def post_profile(self, data, db):
         skill = data['skill']
         email = data['email']
-        db.cur.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}')")
-        db.cur.execute(f"DELETE FROM email_unknown WHERE email='{email}' AND unknown='{skill}'")
+        await db.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}')")
+        await db.execute(f"DELETE FROM email_unknown WHERE email='{email}' AND unknown='{skill}'")
         return {
             'status': 'OK',
         }

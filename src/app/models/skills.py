@@ -1,5 +1,9 @@
+import asyncio
+
+
 class SkillsPredictor:
-    def post_skills(self, data, db):
+    async def post_skills(self, data, db):
+        print(data)
         known = []
         unknown = []
         skills = []
@@ -13,12 +17,19 @@ class SkillsPredictor:
                 known.append(skill['name'])
             else:
                 unknown.append(skill['name'])
-        self.save_data(db, email, known, unknown)
+        print('known', known)
+        print('unknown', unknown)
+        await self.save_data(db, email, known, unknown)
         return {
             'status': 'OK',
         }
 
-    def save_data(self, db, email, known, unknown):
-        [db.cur.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{elem}');") for elem in known]
-        [db.cur.execute(f"INSERT INTO email_unknown (email, unknown) VALUES ('{email}', '{elem}');") for elem in unknown]
-        db.conn.commit()
+    async def db_execute_known(self, db, email, elem):
+        await db.execute('''INSERT INTO email_known (email, known) VALUES ($1, $2)''', email, elem)
+
+    async def db_execute_unknown(self, db, email, elem):
+        return await db.execute('''INSERT INTO email_unknown (email, unknown) VALUES ($1, $2)''', email, elem)
+
+    async def save_data(self, db, email, known, unknown):
+        [await self.db_execute_known(db, email, elem) for elem in known]
+        [await self.db_execute_unknown(db, email, elem) for elem in unknown]
