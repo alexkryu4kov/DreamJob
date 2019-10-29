@@ -20,10 +20,6 @@ class SkillsPredictor:
         }
 
     def save_data(self, db, email, known, unknown):
-        print('email', email)
-        print('known_list', known)
-        print('unknown_list', unknown)
-        print(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{known[0]}')")
-        [db.cur.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{elem}')") for elem in known]
-        [db.cur.execute(f"INSERT INTO email_unknown (email, unknown) VALUES ('{email}', '{elem}')") for elem in unknown]
+        [db.cur.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{elem}');") for elem in known]
+        [db.cur.execute(f"INSERT INTO email_unknown (email, unknown) VALUES ('{email}', '{elem}');") for elem in unknown]
         db.conn.commit()
