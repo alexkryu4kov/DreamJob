@@ -1,13 +1,10 @@
-import asyncio
-
-
 class SkillsPredictor:
     async def post_skills(self, data, db):
         print(data)
         known = []
         unknown = []
         skills = []
-        email = data['email']
+        email = data['email'].lower()
         for elem in data['skillsItemUiModel']:
             skills.append({'name': elem['name'],
                            'selected': elem['selected']['mValue'],
