@@ -1,6 +1,5 @@
 class SkillsPredictor:
     async def post_skills(self, data, db):
-        print(data)
         known = []
         unknown = []
         skills = []
@@ -14,8 +13,6 @@ class SkillsPredictor:
                 known.append(skill['name'])
             else:
                 unknown.append(skill['name'])
-        print('known', known)
-        print('unknown', unknown)
         await self.save_data(db, email, known, unknown)
         return {
             'status': 'OK',

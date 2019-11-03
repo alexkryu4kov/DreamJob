@@ -15,7 +15,6 @@ class ProfilePredictor:
 
     async def get_unknown(self, email, db):
         data = await db.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
-        print(data)
         skills = list(set([row['unknown'] for row in data]))
         return [
             {

@@ -40,7 +40,6 @@ def create_list_of_names(data: list) -> list:
 async def create_vacancies_names(app):
     row_data = await app['db'].fetch("SELECT * FROM vacancies;")
     app['vacancies_names'] = create_list_of_names(row_data)
-    print(app['vacancies_names'])
 
 
 async def on_shutdown(app):
