@@ -36,7 +36,7 @@ class ProfilePredictor:
                 'score': 0,
             }
 
-    async def post_profile(self, data, db):
+    async def complete_profile(self, data, db):
         skill = data['skill']
         email = data['email']
         await db.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}')")
