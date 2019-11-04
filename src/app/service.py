@@ -1,14 +1,16 @@
+import logging
+
 from aiohttp.web import Application
 from aiohttp import web
 
 from app import settings
-
 from app.routes import setup_routes
 
 
 async def init_app():
     """Иницализация приложения."""
     app = Application()
+    logging.basicConfig(level=logging.DEBUG, filename='sample.log')
     setup_routes(app)
     app.on_startup.append(settings.setup_spec_predictor)
     app.on_startup.append(settings.setup_vacancies_predictor)
