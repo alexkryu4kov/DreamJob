@@ -20,14 +20,20 @@ async def spec_handler(request):
         return web.json_response(response_data)
 
     except Exception as e:
+        time_log = round(time.time() - start_time, 3)
+        method_log = request.method
+        request_log = str(request.rel_url)
+        error_log = str(e)
         logging.error(
             {
-                'time': round(time.time() - start_time, 3),
-                'method': request.method,
-                'request': str(request.rel_url),
-                'error': str(e),
+                'time': time_log,
+                'method': method_log,
+                'request': request_log,
+                'error': error_log,
             }
         )
+        await request.app['db'].execute('''INSERT INTO logs (time, method, request, error) VALUES ($1, $2, $3, $4)''',
+                                        time_log, method_log, request_log, error_log)
 
 
 async def vacancies_handler(request):
@@ -47,14 +53,20 @@ async def vacancies_handler(request):
         return web.json_response(response_data)
 
     except Exception as e:
+        time_log = round(time.time() - start_time, 3)
+        method_log = request.method
+        request_log = str(request.rel_url)
+        error_log = str(e)
         logging.error(
             {
-                'time': round(time.time() - start_time, 3),
-                'method': request.method,
-                'request': str(request.rel_url),
-                'error': str(e),
+                'time': time_log,
+                'method': method_log,
+                'request': request_log,
+                'error': error_log,
             }
         )
+        await request.app['db'].execute('''INSERT INTO logs (time, method, request, error) VALUES ($1, $2, $3, $4)''',
+                                        time_log, method_log, request_log, error_log)
 
 
 async def skills_handler(request):
@@ -73,14 +85,20 @@ async def skills_handler(request):
         return web.json_response(response_data)
 
     except Exception as e:
+        time_log = round(time.time() - start_time, 3)
+        method_log = request.method
+        request_log = str(request.rel_url)
+        error_log = str(e)
         logging.error(
             {
-                'time': time.time() - start_time,
-                'method': request.method,
-                'request': str(request.rel_url),
-                'error': str(e),
+                'time': time_log,
+                'method': method_log,
+                'request': request_log,
+                'error': error_log,
             }
         )
+        await request.app['db'].execute('''INSERT INTO logs (time, method, request, error) VALUES ($1, $2, $3, $4)''',
+                                        time_log, method_log, request_log, error_log)
 
 
 async def profile_known_handler(request):
@@ -99,14 +117,20 @@ async def profile_known_handler(request):
         return web.json_response(response_data)
 
     except Exception as e:
+        time_log = round(time.time() - start_time, 3)
+        method_log = request.method
+        request_log = str(request.rel_url)
+        error_log = str(e)
         logging.error(
             {
-                'time': round(time.time() - start_time, 3),
-                'method': request.method,
-                'request': str(request.rel_url),
-                'error': str(e),
+                'time': time_log,
+                'method': method_log,
+                'request': request_log,
+                'error': error_log,
             }
         )
+        await request.app['db'].execute('''INSERT INTO logs (time, method, request, error) VALUES ($1, $2, $3, $4)''',
+                                        time_log, method_log, request_log, error_log)
 
 
 async def profile_unknown_handler(request):
@@ -125,14 +149,20 @@ async def profile_unknown_handler(request):
         return web.json_response(response_data)
 
     except Exception as e:
+        time_log = round(time.time() - start_time, 3)
+        method_log = request.method
+        request_log = str(request.rel_url)
+        error_log = str(e)
         logging.error(
             {
-                'time': round(time.time() - start_time, 3),
-                'method': request.method,
-                'request': str(request.rel_url),
-                'error': str(e),
+                'time': time_log,
+                'method': method_log,
+                'request': request_log,
+                'error': error_log,
             }
         )
+        await request.app['db'].execute('''INSERT INTO logs (time, method, request, error) VALUES ($1, $2, $3, $4)''',
+                                        time_log, method_log, request_log, error_log)
 
 
 async def profile_score_handler(request):
@@ -151,14 +181,20 @@ async def profile_score_handler(request):
         return web.json_response(response_data)
 
     except Exception as e:
+        time_log = round(time.time() - start_time, 3)
+        method_log = request.method
+        request_log = str(request.rel_url)
+        error_log = str(e)
         logging.error(
             {
-                'time': round(time.time() - start_time, 3),
-                'method': request.method,
-                'request': str(request.rel_url),
-                'error': str(e),
+                'time': time_log,
+                'method': method_log,
+                'request': request_log,
+                'error': error_log,
             }
         )
+        await request.app['db'].execute('''INSERT INTO logs (time, method, request, error) VALUES ($1, $2, $3, $4)''',
+                                        time_log, method_log, request_log, error_log)
 
 
 async def profile_complete_handler(request):
@@ -177,11 +213,17 @@ async def profile_complete_handler(request):
         return web.json_response(response_data)
 
     except Exception as e:
+        time_log = round(time.time() - start_time, 3)
+        method_log = request.method
+        request_log = str(request.rel_url)
+        error_log = str(e)
         logging.error(
             {
-                'time': round(time.time() - start_time, 3),
-                'method': request.method,
-                'request': str(request.rel_url),
-                'error': str(e),
+                'time': time_log,
+                'method': method_log,
+                'request': request_log,
+                'error': error_log,
             }
         )
+        await request.app['db'].execute('''INSERT INTO logs (time, method, request, error) VALUES ($1, $2, $3, $4)''',
+                                        time_log, method_log, request_log, error_log)
