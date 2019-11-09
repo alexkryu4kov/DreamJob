@@ -1,35 +1,59 @@
+# TODO: сделать класс ProfilePredictor фасадом
+
+
+from app.helpers import get_unique_skills
+
+
 class ProfilePredictor:
+
+    def __init__(self):
+        self._connection = None
+
+    async def _set_connection(self, db):
+        self._connection = await db.acquire()
+
     async def get_known(self, email, db):
-        data = await db.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
-        skills = list(set([row['known'] for row in data]))
+        await self._set_connection(db)
+        data = await self._connection.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
+        skills = get_unique_skills([row['known'] for row in data])
         return {
             'known': skills,
         }
 
-    async def get_courses(self, skill, db):
-        data = await db.fetch(f"SELECT * FROM courses WHERE skill='{skill}'")
-        return {
-            'url': data[0]['url'],
-            'name': data[0]['name'],
-            }
+    async def get_courses(self):
+        return await self._connection.fetch("SELECT * FROM courses;")
+
+    def find_course(self, courses, skill):
+        for course in courses:
+            if course['skill'] == skill:
+                return {
+                    'url': course['url'],
+                    'name': course['name'],
+                }
 
     async def get_unknown(self, email, db):
-        data = await db.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
-        skills = list(set([row['unknown'] for row in data]))
+        await self._set_connection(db)
+        data = await self._connection.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
+        skills = get_unique_skills([row['unknown'] for row in data])
+        courses = await self.get_courses()
         return [
             {
                 'name': skill,
-                'courses': [await self.get_courses(skill, db)]
+                'courses': self.find_course(courses, skill)
             }
             for skill in skills
         ]
 
+    def count_score(self, known, unknown):
+        return round(len(known)/(len(known)+len(unknown)), 2)
+
     async def get_score(self, email, db):
-        known_data = await db.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
-        unknown_data = await db.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
+        await self._set_connection(db)
+        known_data = await self._connection.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
+        unknown_data = await self._connection.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
         try:
             return {
-                'score': round(len(known_data)/(len(known_data)+len(unknown_data)), 2),
+                'score': self.count_score(known_data, unknown_data),
             }
         except ZeroDivisionError:
             return {
@@ -37,10 +61,11 @@ class ProfilePredictor:
             }
 
     async def complete_profile(self, data, db):
+        await self._set_connection(db)
         skill = data['skill']
         email = data['email']
-        await db.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}')")
-        await db.execute(f"DELETE FROM email_unknown WHERE email='{email}' AND unknown='{skill}'")
+        await self._connection.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}')")
+        await self._connection.execute(f"DELETE FROM email_unknown WHERE email='{email}' AND unknown='{skill}'")
         return {
             'status': 'OK',
         }
