@@ -2,10 +2,10 @@ from aiohttp.web_app import Application
 
 from app.external.config import db_config
 from app.external.db import init_database
-from app.models.spec import SpecPredictor
-from app.models.skills import SkillsPredictor
-from app.models.vacancies import VacanciesPredictor
-from app.models.profile import ProfilePredictor
+from app.models.spec.predictor import SpecPredictor
+from app.models.skills.predictor import SkillsPredictor
+from app.models.vacancies.predictor import VacanciesPredictor
+from app.models.profile.predictor import ProfilePredictor
 
 
 async def setup_spec_predictor(aioapp: Application):
