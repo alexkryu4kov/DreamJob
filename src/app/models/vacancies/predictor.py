@@ -4,6 +4,10 @@
 # TODO: работать с классами, а не со словарями
 # TODO: сделать интеллектуальный парсер скиллов из вакансий
 
+import asyncio
+
+from app.helpers import get_unique_skills
+
 
 class VacanciesPredictor:
 
@@ -39,9 +43,12 @@ class VacanciesPredictor:
         }
 
     async def create_list_of_vacancies(self, data):
-        return [self._create_dict_from_row(row) for row in data]
+        tasks = [asyncio.create_task(self._create_dict_from_row(row)) for row in data]
+        await asyncio.gather(*tasks)
+        return [task.result() for task in tasks]
 
     async def _get_list_of_skills(self, url):
-        data = await self._db.fetch(f"SELECT * FROM skills WHERE vacancy_url='{url}'")
-        return list(set([row['skill'] for row in data]))
+        con = await self._db.acquire()
+        data = await con.fetch(f"SELECT * FROM skills WHERE vacancy_url='{url}'")
+        return get_unique_skills([row['skill'] for row in data])
 
