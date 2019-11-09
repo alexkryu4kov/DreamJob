@@ -46,10 +46,12 @@ class SkillsPredictor:
     async def db_execute_known(self, elem):
         con = await self._db.acquire()
         await con.execute('''INSERT INTO email_known (email, known) VALUES ($1, $2)''', self._email, elem)
+        await self._db.release(con)
 
     async def db_execute_unknown(self, elem):
         con = await self._db.acquire()
         await con.execute('''INSERT INTO email_unknown (email, unknown) VALUES ($1, $2)''', self._email, elem)
+        await self._db.release(con)
 
     async def save_data(self):
         tasks_known = [asyncio.create_task(self.db_execute_known(elem)) for elem in self._known]

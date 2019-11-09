@@ -50,5 +50,5 @@ class VacanciesPredictor:
     async def _get_list_of_skills(self, url):
         con = await self._db.acquire()
         data = await con.fetch(f"SELECT * FROM skills WHERE vacancy_url='{url}'")
+        await self._db.release(con)
         return get_unique_skills([row['skill'] for row in data])
-

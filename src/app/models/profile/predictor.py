@@ -12,10 +12,14 @@ class ProfilePredictor:
     async def _set_connection(self, db):
         self._connection = await db.acquire()
 
+    async def _close_connection(self, db):
+        await db.release(self._connection)
+
     async def get_known(self, email, db):
         await self._set_connection(db)
         data = await self._connection.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
         skills = get_unique_skills([row['known'] for row in data])
+        await self._close_connection(db)
         return {
             'known': skills,
         }
@@ -36,6 +40,7 @@ class ProfilePredictor:
         data = await self._connection.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
         skills = get_unique_skills([row['unknown'] for row in data])
         courses = await self.get_courses()
+        await self._close_connection(db)
         return [
             {
                 'name': skill,
@@ -51,6 +56,7 @@ class ProfilePredictor:
         await self._set_connection(db)
         known_data = await self._connection.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
         unknown_data = await self._connection.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
+        await self._close_connection(db)
         try:
             return {
                 'score': self.count_score(known_data, unknown_data),
@@ -66,6 +72,7 @@ class ProfilePredictor:
         email = data['email']
         await self._connection.execute(f"INSERT INTO email_known (email, known) VALUES ('{email}', '{skill}')")
         await self._connection.execute(f"DELETE FROM email_unknown WHERE email='{email}' AND unknown='{skill}'")
+        await self._close_connection(db)
         return {
             'status': 'OK',
         }
