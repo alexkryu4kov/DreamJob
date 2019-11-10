@@ -6,7 +6,7 @@
 
 import asyncio
 
-from app.helpers import get_unique_skills
+from app.helpers import get_unique_list
 
 
 class VacanciesPredictor:
@@ -51,4 +51,4 @@ class VacanciesPredictor:
         con = await self._db.acquire()
         data = await con.fetch(f"SELECT * FROM skills WHERE vacancy_url='{url}'")
         await self._db.release(con)
-        return get_unique_skills([row['skill'] for row in data])
+        return get_unique_list([row['skill'] for row in data])

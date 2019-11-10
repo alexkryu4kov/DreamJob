@@ -1,2 +1,2 @@
-def get_unique_skills(skills):
-    return list(set(skills))
+def get_unique_list(array):
+    return list(set(array))

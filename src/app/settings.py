@@ -2,6 +2,7 @@ from aiohttp.web_app import Application
 
 from app.external.config import db_config
 from app.external.db import init_database
+from app.helpers import get_unique_list
 from app.models.spec.predictor import SpecPredictor
 from app.models.skills.predictor import SkillsPredictor
 from app.models.vacancies.predictor import VacanciesPredictor
@@ -33,8 +34,12 @@ async def setup_db(aioapp: Application):
     aioapp['db'] = db
 
 
+async def on_shutdown(app):
+    await app['db'].close()
+
+
 def create_list_of_names(data: list) -> list:
-    return list(set([row['name'].lower() for row in data]))
+    return get_unique_list([row['name'].lower() for row in data])
 
 
 async def create_vacancies_names(app):
@@ -42,5 +47,3 @@ async def create_vacancies_names(app):
     app['vacancies_names'] = create_list_of_names(row_data)
 
 
-async def on_shutdown(app):
-    await app['db'].close()

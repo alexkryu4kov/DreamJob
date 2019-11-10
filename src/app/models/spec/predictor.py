@@ -5,28 +5,15 @@
 # TODO: возможно использовать более интеллектуальный алгоритм поиска
 # TODO: ранжировать по популярности названия вакансий и отдавать в отдельном порядке
 
+from app.models.spec.suggester import SuggesterCreator
+
 
 class SpecPredictor:
-
-    def __init__(self) -> None:
-        self._current_string = None
-        self._vacancies_names = None
-
-    def _set_vacancies_names(self, vacancies_names: list) -> None:
-        self._vacancies_names = vacancies_names
-
-    def _set_current_string(self, current_string: str):
-        self._current_string = current_string.lower()
-
-    def _create_suggestions(self) -> list:
-        return [name for name in self._vacancies_names if name.startswith(self._current_string)]
+    def __init__(self):
+        self._creator = SuggesterCreator()
 
     def get_spec(self, current_string: str, vacancies_names: list) -> dict:
-        self._set_current_string(current_string)
-        self._set_vacancies_names(vacancies_names)
-        suggestions = self._create_suggestions()
+        suggestions = self._creator.create_suggestions(current_string, vacancies_names)
         return {
             'spec': suggestions,
         }
-
-

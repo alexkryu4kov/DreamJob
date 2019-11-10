@@ -1,7 +1,7 @@
 # TODO: сделать класс ProfilePredictor фасадом
 
 
-from app.helpers import get_unique_skills
+from app.helpers import get_unique_list
 
 
 class ProfilePredictor:
@@ -38,7 +38,7 @@ class ProfilePredictor:
     async def get_unknown(self, email, db):
         await self._set_connection(db)
         data = await self._connection.fetch(f"SELECT * FROM email_unknown WHERE email='{email}'")
-        skills = get_unique_skills([row['unknown'] for row in data])
+        skills = get_unique_list([row['unknown'] for row in data])
         courses = await self.get_courses()
         await self._close_connection(db)
         return [
