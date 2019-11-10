@@ -18,10 +18,10 @@ async def init_app():
     app.on_startup.append(settings.setup_skills_predictor)
     app.on_startup.append(settings.setup_profile_predictor)
 
-    app.on_startup.append(settings.create_vacancies_names)
-
     app.on_startup.append(settings.setup_db)
     app.on_shutdown.append(settings.on_shutdown)
+
+    app.on_startup.append(settings.create_vacancies_names)
     return app
 
 
