@@ -41,7 +41,7 @@ async def vacancies_handler(request):
     try:
         name = request.query['name']
         level = request.query['lvl']
-        response_data = await request.app['vacancies_predictor'].get_vacancies(name, level, request.app['db'])
+        response_data = await request.app['vacancies_predictor'].get_vacancies(name, level)
         logging.info(
             {
                 'time': round(time.time() - start_time, 3),
@@ -73,7 +73,7 @@ async def skills_handler(request):
     start_time = time.time()
     try:
         request_data = await request.json()
-        response_data = await request.app['skills_predictor'].post_skills(request_data, request.app['db'])
+        response_data = await request.app['skills_predictor'].post_skills(request_data)
         logging.info(
             {
                 'time': round(time.time() - start_time, 3),
@@ -105,7 +105,7 @@ async def profile_known_handler(request):
     start_time = time.time()
     try:
         email = request.query['email']
-        response_data = await request.app['profile_predictor'].get_known(email, request.app['db'])
+        response_data = await request.app['profile_predictor'].get_known(email)
         logging.info(
             {
                 'time': round(time.time() - start_time, 3),
@@ -137,7 +137,7 @@ async def profile_unknown_handler(request):
     start_time = time.time()
     try:
         email = request.query['email']
-        response_data = await request.app['profile_predictor'].get_unknown(email, request.app['db'])
+        response_data = await request.app['profile_predictor'].get_unknown(email)
         logging.info(
             {
                 'time': round(time.time() - start_time, 3),
@@ -169,7 +169,7 @@ async def profile_score_handler(request):
     start_time = time.time()
     try:
         email = request.query['email']
-        response_data = await request.app['profile_predictor'].get_score(email, request.app['db'])
+        response_data = await request.app['profile_predictor'].get_score(email)
         logging.info(
             {
                 'time': round(time.time() - start_time, 3),
@@ -201,7 +201,7 @@ async def profile_complete_handler(request):
     start_time = time.time()
     try:
         request_data = await request.json()
-        response_data = await request.app['profile_predictor'].complete_profile(request_data, request.app['db'])
+        response_data = await request.app['profile_predictor'].complete_profile(request_data)
         logging.info(
             {
                 'time': round(time.time() - start_time, 3),

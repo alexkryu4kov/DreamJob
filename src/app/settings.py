@@ -1,46 +1,42 @@
 from aiohttp.web_app import Application
 
 from app.external.config import db_config
-from app.external.db import init_database
-from app.models.spec import SpecPredictor
-from app.models.skills import SkillsPredictor
-from app.models.vacancies import VacanciesPredictor
-from app.models.profile import ProfilePredictor
+from app.external.db import Db
+from app.external.init_db import init_database
+from app.helpers import create_list_of_names
+from app.models.profile.predictor import ProfilePredictor
+from app.models.skills.predictor import SkillsPredictor
+from app.models.spec.predictor import SpecPredictor
+from app.models.vacancies.predictor import VacanciesPredictor
 
 
 async def setup_spec_predictor(aioapp: Application):
-    predictor = SpecPredictor()
-    aioapp['spec_predictor'] = predictor
+    aioapp['spec_predictor'] = SpecPredictor()
 
 
 async def setup_skills_predictor(aioapp: Application):
-    predictor = SkillsPredictor()
-    aioapp['skills_predictor'] = predictor
+    aioapp['skills_predictor'] = SkillsPredictor()
 
 
 async def setup_vacancies_predictor(aioapp: Application):
-    predictor = VacanciesPredictor()
-    aioapp['vacancies_predictor'] = predictor
+    aioapp['vacancies_predictor'] = VacanciesPredictor()
 
 
 async def setup_profile_predictor(aioapp: Application):
-    predictor = ProfilePredictor()
-    aioapp['profile_predictor'] = predictor
+    aioapp['profile_predictor'] = ProfilePredictor()
 
 
 async def setup_db(aioapp: Application):
-    db = await init_database(db_config)
-    aioapp['db'] = db
+    aioapp['db'] = await init_database(db_config)
+    Db.db = aioapp['db']
 
 
-def create_list_of_names(data: list) -> list:
-    return list(set([row['name'].lower() for row in data]))
+async def on_shutdown(aioapp: Application):
+    await aioapp['db'].close()
 
 
-async def create_vacancies_names(app):
-    row_data = await app['db'].fetch("SELECT * FROM vacancies;")
-    app['vacancies_names'] = create_list_of_names(row_data)
-
-
-async def on_shutdown(app):
-    await app['db'].close()
+async def create_vacancies_names(aioapp: Application):
+    connection = await aioapp['db'].acquire()
+    row_data = await connection.fetch('''SELECT * FROM vacancies''')
+    aioapp['vacancies_names'] = create_list_of_names(row_data)
+    await aioapp['db'].release(connection)

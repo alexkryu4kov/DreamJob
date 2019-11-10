@@ -4,5 +4,7 @@ db_config = {
     'host': 'ec2-174-129-231-116.compute-1.amazonaws.com',
     'port': 5432,
     'database': 'da7ht06l1b358e',
-    'ssl': 'require'
+    'ssl': 'require',
+    'min_size': 8,
+    'max_size': 10,
 }
