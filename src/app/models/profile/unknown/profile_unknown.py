@@ -15,8 +15,7 @@ class GetUnknown:
         return [
             {
                 'name': skill,
-                'courses': self._course_selector.find_course(courses, skill)
+                'courses': self._course_selector.find_course(courses, skill),
             }
             for skill in skills
         ]
-

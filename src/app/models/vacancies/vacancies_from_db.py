@@ -1,7 +1,7 @@
 import asyncio
 
 from app.external.db import Db
-from .row import Row
+from app.models.vacancies.row import Row
 
 
 class VacanciesFromDb(Db):
@@ -27,8 +27,10 @@ class VacanciesFromDb(Db):
         self._level = level
 
     async def _get_row_data(self):
-        return await self._connection.fetch('''SELECT * FROM vacancies WHERE name=$1 AND level=$2''',
-                                            self.name, self.level)
+        return await self._connection.fetch(
+            '''SELECT * FROM vacancies WHERE name=$1 AND level=$2''',
+            self.name, self.level,
+        )
 
 
 class VacanciesList(VacanciesFromDb):

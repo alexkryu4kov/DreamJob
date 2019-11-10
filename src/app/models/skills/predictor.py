@@ -1,4 +1,4 @@
-from .save_data import Saver
+from app.models.skills.save_data import Saver
 
 
 class SkillsPredictor:

@@ -8,6 +8,9 @@ class SkillsFromDb(Db):
 
     async def get_list_of_skills(self, url: str) -> list:
         await self._make_connection()
-        data = await self._connection.fetch('''SELECT * FROM skills WHERE vacancy_url=$1''', url)
+        skills_rows = await self._connection.fetch(
+            '''SELECT * FROM skills WHERE vacancy_url=$1''',
+            url,
+        )
         await self._close_connection()
-        return get_unique_list([row['skill'] for row in data])
+        return get_unique_list([row['skill'] for row in skills_rows])

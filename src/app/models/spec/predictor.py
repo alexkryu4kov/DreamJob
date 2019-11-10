@@ -1,4 +1,4 @@
-from .suggester import SuggesterCreator
+from app.models.spec.suggester import SuggesterCreator
 
 
 class SpecPredictor:

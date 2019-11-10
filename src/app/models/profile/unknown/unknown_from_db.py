@@ -7,12 +7,17 @@ class UnknownFromDb(Db):
 
     async def select_unknown(self, email: str) -> list:
         await self._make_connection()
-        data = await self._connection.fetch('''SELECT * FROM email_unknown WHERE email=$1''', email)
+        unknown = await self._connection.fetch(
+            '''SELECT * FROM email_unknown WHERE email=$1''',
+            email,
+        )
         await self._close_connection()
-        return data
+        return unknown
 
     async def select_courses(self) -> list:
         await self._make_connection()
-        data = await self._connection.fetch('''SELECT * FROM courses''')
+        courses = await self._connection.fetch(
+            '''SELECT * FROM courses'''
+        )
         await self._close_connection()
-        return data
+        return courses

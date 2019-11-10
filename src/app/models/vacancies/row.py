@@ -1,6 +1,6 @@
 from dataclasses import asdict, dataclass
 
-from .skills_from_db import SkillsFromDb
+from app.models.vacancies.skills_from_db import SkillsFromDb
 
 
 @dataclass
@@ -20,7 +20,6 @@ class Row:
 
     async def create_dict_from_row(self) -> dict:
         await self.set_skills()
-        result = asdict(self)
-        del result['id']
-        return result
-
+        row_dict = asdict(self)
+        del row_dict['id']
+        return row_dict

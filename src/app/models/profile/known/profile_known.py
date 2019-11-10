@@ -1,5 +1,5 @@
 from app.helpers import get_unique_list
-from .known_from_db import KnownFromDb
+from app.models.profile.known.known_from_db import KnownFromDb
 
 
 class GetKnown:

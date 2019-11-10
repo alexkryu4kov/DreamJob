@@ -1,4 +1,4 @@
-from .vacancies_from_db import VacanciesList
+from app.models.vacancies.vacancies_from_db import VacanciesList
 
 
 class VacanciesPredictor:

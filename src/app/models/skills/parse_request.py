@@ -13,8 +13,8 @@ class ParseRequest:
             return []
 
     def _set_skills(self, request: dict) -> None:
-        data = self._get_data_from_request(request)
-        for elem in data:
+        request_data = self._get_data_from_request(request)
+        for elem in request_data:
             self._skills.append({'name': elem['name'],
                                  'selected': elem['selected']['mValue'],
                                  })
@@ -26,7 +26,8 @@ class ParseRequest:
         self._set_email(request)
         self._set_skills(request)
         for skill in self._skills:
+            name = skill['name']
             if skill['selected']:
-                self.known.append(skill['name'])
+                self.known.append(name)
             else:
-                self.unknown.append(skill['name'])
+                self.unknown.append(name)
