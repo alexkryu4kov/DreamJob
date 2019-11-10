@@ -1,4 +1,4 @@
-def get_unique_list(array):
+def get_unique_list(array: list) -> list:
     return list(set(array))
 
 

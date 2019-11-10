@@ -1,6 +1,6 @@
 class CourseSelector:
 
-    def find_course(self, courses, skill):
+    def find_course(self, courses: list, skill: str) -> dict:
         for course in courses:
             if course['skill'] == skill:
                 return {

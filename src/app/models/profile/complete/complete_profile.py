@@ -1,12 +1,12 @@
-from app.models.profile.complete.complete_db import CompleteDb
+from .complete_db import CompleteDb
 
 
 class CompleteProfile:
 
-    def __init__(self):
+    def __init__(self) -> None:
         self._complete = CompleteDb()
 
-    async def complete_profile(self, request):
+    async def complete_profile(self, request: dict) -> dict:
         await self._complete.complete(request)
         return {
             'status': 'OK',

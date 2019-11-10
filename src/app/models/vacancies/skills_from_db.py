@@ -3,10 +3,10 @@ from app.external.db import Db
 
 
 class SkillsFromDb(Db):
-    def __init__(self):
+    def __init__(self) -> None:
         super().__init__()
 
-    async def get_list_of_skills(self, url):
+    async def get_list_of_skills(self, url: str) -> list:
         await self._make_connection()
         data = await self._connection.fetch('''SELECT * FROM skills WHERE vacancy_url=$1''', url)
         await self._close_connection()
