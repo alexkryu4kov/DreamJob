@@ -22,4 +22,3 @@ class SkillsPredictor:
         return {
             'status': 'OK',
         }
-

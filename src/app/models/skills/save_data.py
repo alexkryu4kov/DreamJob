@@ -1,5 +1,3 @@
-import asyncio
-
 from app.external.db import Db
 from app.models.skills.parse_request import ParseRequest
 
