@@ -18,7 +18,7 @@ class ProfilePredictor:
     async def get_known(self, email, db):
         await self._set_connection(db)
         data = await self._connection.fetch(f"SELECT * FROM email_known WHERE email='{email}'")
-        skills = get_unique_skills([row['known'] for row in data])
+        skills = get_unique_list([row['known'] for row in data])
         await self._close_connection(db)
         return {
             'known': skills,

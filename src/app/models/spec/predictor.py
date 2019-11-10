@@ -13,7 +13,9 @@ class SpecPredictor:
         self._creator = SuggesterCreator()
 
     def get_spec(self, current_string: str, vacancies_names: list) -> dict:
-        suggestions = self._creator.create_suggestions(current_string, vacancies_names)
+        self._creator.current_string = current_string
+        self._creator.vacancies_names = vacancies_names
+        suggestions = self._creator.create_suggestions()
         return {
             'spec': suggestions,
         }
