@@ -5,6 +5,6 @@ db_config = {
     'port': 5432,
     'database': 'da7ht06l1b358e',
     'ssl': 'require',
-    'min_size': 1,
+    'min_size': 8,
     'max_size': 10,
 }
