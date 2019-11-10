@@ -1,7 +1,7 @@
 from aiohttp.web_app import Application
 
 from app.external.config import db_config
-from app.external.db import init_database
+from app.external.init_db import init_database
 from app.helpers import get_unique_list
 from app.models.spec.predictor import SpecPredictor
 from app.models.skills.predictor import SkillsPredictor
@@ -30,8 +30,7 @@ async def setup_profile_predictor(aioapp: Application):
 
 
 async def setup_db(aioapp: Application):
-    db = await init_database(db_config)
-    aioapp['db'] = db
+    aioapp['db'] = await init_database(db_config)
 
 
 async def on_shutdown(app):
@@ -45,5 +44,3 @@ def create_list_of_names(data: list) -> list:
 async def create_vacancies_names(app):
     row_data = await app['db'].fetch("SELECT * FROM vacancies;")
     app['vacancies_names'] = create_list_of_names(row_data)
-
-
