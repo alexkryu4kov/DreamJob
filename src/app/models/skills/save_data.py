@@ -23,10 +23,10 @@ class Saver(Db):
 
     async def save_known_data(self):
         self._connection_known = await self.db.acquire()
-        [self.db_execute_known(elem) for elem in self._request.known]
+        [await self.db_execute_known(elem) for elem in self._request.known]
         await self.db.release(self._connection_known)
 
     async def save_unknown_data(self):
         self._connection_unknown = await self.db.acquire()
-        [self.db_execute_unknown(elem) for elem in self._request.unknown]
+        [await self.db_execute_unknown(elem) for elem in self._request.unknown]
         await self.db.release(self._connection_unknown)

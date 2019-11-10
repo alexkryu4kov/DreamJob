@@ -1,6 +1,7 @@
 from aiohttp.web_app import Application
 
 from app.external.config import db_config
+from app.external.db import Db
 from app.external.init_db import init_database
 from app.helpers import get_unique_list
 from app.models.spec.predictor import SpecPredictor
@@ -31,6 +32,7 @@ async def setup_profile_predictor(aioapp: Application):
 
 async def setup_db(aioapp: Application):
     aioapp['db'] = await init_database(db_config)
+    Db.db = aioapp['db']
 
 
 async def on_shutdown(app):

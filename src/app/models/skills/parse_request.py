@@ -30,4 +30,3 @@ class ParseRequest:
                 self.known.append(skill['name'])
             else:
                 self.unknown.append(skill['name'])
-
