@@ -16,7 +16,7 @@ class VacanciesFromDb(Db):
 
     @name.setter
     def name(self, name: str) -> None:
-        self._name = name
+        self._name = name.capitalize()
 
     @property
     def level(self) -> str:
