@@ -21,9 +21,9 @@ async def test_vacancies(url):
 async def test_skills(url):
     async with aiohttp.ClientSession() as session:
         async with session.post(f'{url}/skills', json={
-            'email': 'lll@lll.lll', 'skillsItemUiModel': [
-                {'layoutId': 2, 'name': 'android', 'selected': {'mValue': 'True'}},
-                {'layoutId': 2, 'name': 'git', 'selected': {'mValue': 'False'}}]
+            'email': 'aaa@aaa.aaa', 'skillsItemUiModel': [
+                {'layoutId': 2, 'name': 'android', 'selected': {'mValue': True}},
+                {'layoutId': 2, 'name': 'git', 'selected': {'mValue': False}}]
         }) as resp:
             assert resp.status == 200
 
@@ -53,6 +53,6 @@ async def test_profile_score(url):
 async def test_profile_complete(url):
     async with aiohttp.ClientSession() as session:
         async with session.post(f'{url}/profile/complete', json={
-            'email': 'lll@lll.lll', 'skill': 'git'
+            'email': 'aaa@aaa.aaa', 'skill': 'git'
         }) as resp:
             assert resp.status == 200
