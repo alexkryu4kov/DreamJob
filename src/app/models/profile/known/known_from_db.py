@@ -8,7 +8,7 @@ class KnownFromDb(Db):
     async def select_known(self, email: str) -> list:
         await self._make_connection()
         known = await self._connection.fetch(
-            '''SELECT * FROM email_known WHERE email=$1''',
+            '''SELECT * FROM email_known WHERE email=$1 ORDER BY save_time desc''',
             email,
         )
         await self._close_connection()

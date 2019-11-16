@@ -8,6 +8,8 @@ class GetKnown:
 
     async def get_known(self, email: str) -> dict:
         known_list = await self._known_from_db.select_known(email)
+        fresh_time = known_list[0]['save_time']
+        known_list = [row for row in known_list if row['save_time'] == fresh_time]
         skills = get_unique_list([row['known'] for row in known_list])
         return {
             'known': skills,
