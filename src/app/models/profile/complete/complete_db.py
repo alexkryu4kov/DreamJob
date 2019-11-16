@@ -7,23 +7,33 @@ class CompleteDb(Db):
         super().__init__()
         self._request = RequestParser()
 
-    async def insert_known(self) -> None:
+    async def select_unknown_save_time(self) -> int:
+        await self._make_connection()
+        unknown = await self._connection.fetch(
+            '''SELECT * FROM email_unknown WHERE email=$1 AND unknown=$2 ORDER BY save_time desc''',
+            self._request.email, self._request.skill
+        )
+        await self._close_connection()
+        return unknown[0]['save_time']
+
+    async def insert_known(self, save_time) -> None:
         await self._make_connection()
         await self._connection.execute(
-            '''INSERT INTO email_known (email, known) VALUES ($1, $2)''',
-            self._request.email, self._request.skill,
+            '''INSERT INTO email_known (email, known, save_time) VALUES ($1, $2, $3)''',
+            self._request.email, self._request.skill, save_time,
         )
         await self._close_connection()
 
-    async def delete_unknown(self) -> None:
+    async def delete_unknown(self, save_time) -> None:
         await self._make_connection()
         await self._connection.execute(
-            '''DELETE FROM email_unknown WHERE email=$1 AND unknown=$2''',
-            self._request.email, self._request.skill,
+            '''DELETE FROM email_unknown WHERE email=$1 AND unknown=$2 AND save_time=$3''',
+            self._request.email, self._request.skill, save_time,
         )
         await self._close_connection()
 
     async def complete(self, request: dict) -> None:
         self._request.parse(request)
-        await self.insert_known()
-        await self.delete_unknown()
+        unknown_save_time = await self.select_unknown_save_time()
+        await self.insert_known(unknown_save_time)
+        await self.delete_unknown(unknown_save_time)
