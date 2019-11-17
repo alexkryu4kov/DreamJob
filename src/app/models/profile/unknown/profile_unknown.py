@@ -1,11 +1,10 @@
 from app.helpers import get_unique_list
-from .courses import CourseSelector
-from .unknown_from_db import UnknownFromDb
+from app.models.profile.unknown.find_course import find_course
+from app.models.profile.unknown.unknown_from_db import UnknownFromDb
 
 
 class GetUnknown:
     def __init__(self) -> None:
-        self._course_selector = CourseSelector()
         self._unknown_from_db = UnknownFromDb()
 
     async def get_unknown(self, email: str) -> list:
@@ -17,7 +16,7 @@ class GetUnknown:
         return [
             {
                 'name': skill,
-                'courses': self._course_selector.find_course(courses, skill),
+                'courses': find_course(courses, skill),
             }
             for skill in skills
         ]
