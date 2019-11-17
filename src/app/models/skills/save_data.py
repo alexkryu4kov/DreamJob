@@ -1,3 +1,5 @@
+import time
+
 from app.external.db import Db
 from app.models.skills.parse_request import ParseRequest
 
@@ -10,17 +12,18 @@ class Saver(Db):
         self._con_unknown = None
         self._request = ParseRequest()
         self._request.set_email_known_unknown(request)
+        self._datetime = round(time.time())
 
     async def db_execute_known(self, elem: str) -> None:
         await self._con_known.execute(
-            '''INSERT INTO email_known (email, known) VALUES ($1, $2)''',
-            self._request.email, elem,
+            '''INSERT INTO email_known (email, known, save_time) VALUES ($1, $2, $3)''',
+            self._request.email, elem, self._datetime,
         )
 
     async def db_execute_unknown(self, elem: str) -> None:
         await self._con_unknown.execute(
-            '''INSERT INTO email_unknown (email, unknown) VALUES ($1, $2)''',
-            self._request.email, elem,
+            '''INSERT INTO email_unknown (email, unknown, save_time) VALUES ($1, $2, $3)''',
+            self._request.email, elem, self._datetime,
         )
 
     async def save_known_data(self) -> None:

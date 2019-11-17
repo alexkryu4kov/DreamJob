@@ -7,6 +7,7 @@ from app.models.vacancies.skills_from_db import SkillsFromDb
 class Row:
     id: int
     name: str
+    real_name: str
     level: str
     company_name: str
     city: str
