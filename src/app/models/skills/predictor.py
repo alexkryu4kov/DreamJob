@@ -15,6 +15,7 @@ class SkillsPredictor:
 
     async def post_skills(self, request: dict) -> dict:
         self.saver = Saver(request)
+        await self.saver.save_time()
         await self.saver.save_known_data()
         await self.saver.save_unknown_data()
         return {

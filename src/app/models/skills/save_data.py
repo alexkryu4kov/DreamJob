@@ -14,6 +14,14 @@ class Saver(Db):
         self._request.set_email_known_unknown(request)
         self._datetime = round(time.time())
 
+    async def save_time(self):
+        await self._make_connection()
+        await self._connection.execute(
+            '''INSERT INTO users (email, save_time) VALUES ($1, $2)''',
+            self._request.email, self._datetime,
+        )
+        await self._close_connection()
+
     async def db_execute_known(self, elem: str) -> None:
         await self._con_known.execute(
             '''INSERT INTO email_known (email, known, save_time) VALUES ($1, $2, $3)''',
