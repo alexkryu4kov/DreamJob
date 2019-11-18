@@ -27,4 +27,3 @@ class GetUnknown:
             return []
         except IndexError:
             return []
-
