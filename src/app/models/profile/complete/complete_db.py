@@ -5,7 +5,7 @@ from app.models.profile.complete.request_parser import RequestParser
 class CompleteDb(Db):
     def __init__(self) -> None:
         super().__init__()
-        self._request = RequestParser()
+        self._request = None
 
     async def select_unknown_save_time(self) -> int:
         await self._make_connection()
@@ -32,8 +32,8 @@ class CompleteDb(Db):
         )
         await self._close_connection()
 
-    async def complete(self, request: dict) -> None:
-        self._request.parse(request)
+    async def complete(self, request: RequestParser) -> None:
+        self._request = request
         unknown_save_time = await self.select_unknown_save_time()
-        await self.insert_known(unknown_save_time)
         await self.delete_unknown(unknown_save_time)
+        await self.insert_known(unknown_save_time)
