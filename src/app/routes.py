@@ -20,3 +20,4 @@ def setup_routes(app):
     cors.add(app.router.add_get('/profile/unknown', handler.profile_unknown_handler))
     cors.add(app.router.add_get('/profile/score', handler.profile_score_handler))
     cors.add(app.router.add_post('/profile/complete', handler.profile_complete_handler))
+    cors.add(app.router.add_get('/profile/courses', handler.profile_courses_handler))
