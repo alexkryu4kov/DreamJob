@@ -6,7 +6,6 @@ import pytest
 async def test_spec(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(f'{url}/spec?name=p') as resp:
-            print(resp)
             assert resp.status == 200
 
 
@@ -55,4 +54,11 @@ async def test_profile_complete(url):
         async with session.post(f'{url}/profile/complete', json={
             'email': 'aaa@aaa.aaa', 'skill': 'git'
         }) as resp:
+            assert resp.status == 200
+
+
+@pytest.mark.asyncio
+async def test_profile_courses(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f'{url}/profile/courses?skill=python') as resp:
             assert resp.status == 200
