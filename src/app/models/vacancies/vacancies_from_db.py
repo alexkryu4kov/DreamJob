@@ -53,12 +53,8 @@ class VacanciesList(VacanciesFromDb):
     async def create_list_of_vacancies(self) -> list:
         await self._make_connection()
         row_data = await self._get_row_data()
-        print(row_data)
         skills_dict = self.get_skills_by_id(row_data)
-        print(skills_dict)
         vacancies_row = [self.create_vacancy(id, row_data) for id in self.get_unique_ids(row_data)]
-        print(vacancies_row)
         vacancies = [Row(**row).create_dict_from_row(skills_dict) for row in vacancies_row]
-        print(vacancies)
         await self._close_connection()
         return vacancies
