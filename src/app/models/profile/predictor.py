@@ -1,7 +1,8 @@
-from .known.profile_known import GetKnown
-from .unknown.profile_unknown import GetUnknown
-from .score.profile_score import ProfileScore
-from .complete.complete_profile import CompleteProfile
+from app.models.profile.known.profile_known import GetKnown
+from app.models.profile.unknown.profile_unknown import GetUnknown
+from app.models.profile.score.profile_score import ProfileScore
+from app.models.profile.complete.complete_profile import CompleteProfile
+from app.models.profile.courses.profile_courses import ProfileCourses
 
 
 class ProfilePredictor:
@@ -11,6 +12,7 @@ class ProfilePredictor:
         self._unknown = GetUnknown()
         self._score = ProfileScore()
         self._complete = CompleteProfile()
+        self._courses = ProfileCourses()
 
     async def get_known(self, email: str):
         return await self._known.get_known(email)
@@ -23,3 +25,6 @@ class ProfilePredictor:
 
     async def complete_profile(self, request: dict):
         return await self._complete.complete_profile(request)
+
+    async def get_courses(self, skill: str):
+        return await self._courses.get_courses(skill)
