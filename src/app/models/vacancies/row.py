@@ -1,11 +1,9 @@
 from dataclasses import asdict, dataclass
 
-from app.models.vacancies.skills_from_db import SkillsFromDb
-
 
 @dataclass
 class Row:
-    id: int
+    vacancy_id: int
     name: str
     real_name: str
     level: str
@@ -13,14 +11,16 @@ class Row:
     city: str
     salary: int
     url: str
-    skills: list = None
+    skill: str
 
-    async def set_skills(self) -> None:
-        skills_from_db = SkillsFromDb()
-        self.skills = await skills_from_db.get_list_of_skills(self.url)
+    def search_by_url(self, skills):
+        return [element['skill'] for element in skills if element['vacancy_url'] == self.url]
 
-    async def create_dict_from_row(self) -> dict:
-        await self.set_skills()
+    def create_dict_from_row(self, skills) -> dict:
         row_dict = asdict(self)
-        del row_dict['id']
+        row_dict['skills'] = skills[self.vacancy_id]
+        del row_dict['url']
+        del row_dict['real_name']
+        del row_dict['skill']
+        del row_dict['vacancy_id']
         return row_dict
