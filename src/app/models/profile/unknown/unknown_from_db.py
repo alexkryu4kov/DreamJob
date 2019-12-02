@@ -22,11 +22,3 @@ class UnknownFromDb(Db):
         )
         await self._close_connection()
         return unknown
-
-    async def select_courses(self) -> list:
-        await self._make_connection()
-        courses = await self._connection.fetch(
-            '''SELECT url, name, skill FROM courses'''
-        )
-        await self._close_connection()
-        return courses
