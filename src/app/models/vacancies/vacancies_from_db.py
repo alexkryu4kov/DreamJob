@@ -14,7 +14,7 @@ class VacanciesFromDb(Db):
 
     @name.setter
     def name(self, name: str) -> None:
-        self._name = name.capitalize()
+        self._name = name.lower()
 
     @property
     def level(self) -> str:
@@ -22,7 +22,7 @@ class VacanciesFromDb(Db):
 
     @level.setter
     def level(self, level: str) -> None:
-        self._level = level
+        self._level = level.lower()
 
     async def _get_row_data(self):
         await self._make_connection()
