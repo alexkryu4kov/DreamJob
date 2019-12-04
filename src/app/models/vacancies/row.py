@@ -12,6 +12,7 @@ class Row:
     city: str
     salary: int
     url: str
+    skill: str
 
     def search_by_url(self, skills):
         return [element['skill'] for element in skills if element['vacancy_url'] == self.url]
@@ -22,5 +23,6 @@ class Row:
         row_dict['skills'] = list(set(skills[self.vacancy_id]))
         del row_dict['url']
         del row_dict['real_name']
+        del row_dict['skill']
         del row_dict['vacancy_id']
         return row_dict
