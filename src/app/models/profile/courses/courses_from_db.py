@@ -9,7 +9,7 @@ class CoursesFromDb(Db):
         await self._make_connection()
         courses = await self._connection.fetch(
             '''SELECT url, name FROM courses WHERE skill=$1''',
-            skill,
+            skill.lower(),
         )
         await self._close_connection()
         return courses
