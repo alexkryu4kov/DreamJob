@@ -1,3 +1,4 @@
+from copy import deepcopy
 from dataclasses import asdict, dataclass
 
 
@@ -18,6 +19,7 @@ class Row:
 
     def create_dict_from_row(self, skills) -> dict:
         row_dict = asdict(self)
+        row_dict['name'] = deepcopy(row_dict['real_name'])
         row_dict['skills'] = skills[self.vacancy_id]
         del row_dict['url']
         del row_dict['real_name']
