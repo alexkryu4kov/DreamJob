@@ -8,7 +8,7 @@ class UnknownFromDb(Db):
     async def select_users(self, email):
         await self._make_connection()
         users = await self._connection.fetch(
-            '''SELECT * FROM users WHERE email=$1 ORDER BY save_time desc''',
+            '''SELECT save_time FROM users WHERE email=$1 ORDER BY save_time desc''',
             email,
         )
         await self._close_connection()
@@ -17,7 +17,7 @@ class UnknownFromDb(Db):
     async def select_unknown(self, email: str) -> list:
         await self._make_connection()
         unknown = await self._connection.fetch(
-            '''SELECT * FROM email_unknown WHERE email=$1 ORDER BY save_time desc''',
+            '''SELECT unknown, save_time FROM email_unknown WHERE email=$1 ORDER BY save_time desc''',
             email,
         )
         await self._close_connection()
@@ -26,7 +26,7 @@ class UnknownFromDb(Db):
     async def select_courses(self) -> list:
         await self._make_connection()
         courses = await self._connection.fetch(
-            '''SELECT * FROM courses'''
+            '''SELECT url, name, skill FROM courses'''
         )
         await self._close_connection()
         return courses

@@ -5,6 +5,7 @@ from app.external.db import Db
 from app.external.init_db import init_database
 from app.helpers import create_list_of_names
 from app.models.profile.predictor import ProfilePredictor
+from app.models.roadmaps.predictor import RoadmapsPredictor
 from app.models.skills.predictor import SkillsPredictor
 from app.models.spec.predictor import SpecPredictor
 from app.models.vacancies.predictor import VacanciesPredictor
@@ -24,6 +25,10 @@ async def setup_vacancies_predictor(aioapp: Application):
 
 async def setup_profile_predictor(aioapp: Application):
     aioapp['profile_predictor'] = ProfilePredictor()
+
+
+async def setup_roadmaps_predictor(aioapp: Application):
+    aioapp['roadmaps_predictor'] = RoadmapsPredictor()
 
 
 async def setup_db(aioapp: Application):

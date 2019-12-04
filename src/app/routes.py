@@ -1,6 +1,6 @@
 import aiohttp_cors
 
-from app.api import handler
+from app.api import profile, roadmaps, skills, spec, vacancies
 
 
 def setup_routes(app):
@@ -13,11 +13,12 @@ def setup_routes(app):
         ),
     })
 
-    cors.add(app.router.add_get('/spec', handler.spec_handler))
-    cors.add(app.router.add_get('/vacancies', handler.vacancies_handler))
-    cors.add(app.router.add_post('/skills', handler.skills_handler))
-    cors.add(app.router.add_get('/profile/known', handler.profile_known_handler))
-    cors.add(app.router.add_get('/profile/unknown', handler.profile_unknown_handler))
-    cors.add(app.router.add_get('/profile/score', handler.profile_score_handler))
-    cors.add(app.router.add_post('/profile/complete', handler.profile_complete_handler))
-    cors.add(app.router.add_get('/profile/courses', handler.profile_courses_handler))
+    cors.add(app.router.add_get('/spec', spec.handler))
+    cors.add(app.router.add_get('/vacancies', vacancies.handler))
+    cors.add(app.router.add_post('/skills', skills.handler))
+    cors.add(app.router.add_get('/profile/known', profile.known_handler))
+    cors.add(app.router.add_get('/profile/unknown', profile.unknown_handler))
+    cors.add(app.router.add_get('/profile/score', profile.score_handler))
+    cors.add(app.router.add_post('/profile/complete', profile.complete_handler))
+    cors.add(app.router.add_get('/profile/courses', profile.courses_handler))
+    cors.add(app.router.add_get('/roadmaps', roadmaps.handler))

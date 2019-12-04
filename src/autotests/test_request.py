@@ -6,7 +6,6 @@ import pytest
 async def test_spec(url):
     async with aiohttp.ClientSession() as session:
         async with session.get(f'{url}/spec?name=p') as resp:
-            print(resp)
             assert resp.status == 200
 
 
@@ -21,7 +20,7 @@ async def test_vacancies(url):
 async def test_skills(url):
     async with aiohttp.ClientSession() as session:
         async with session.post(f'{url}/skills', json={
-            'email': 'aaa@aaa.aaa', 'skillsItemUiModel': [
+            'email': 'test@test.test', 'skillsItemUiModel': [
                 {'layoutId': 2, 'name': 'android', 'selected': {'mValue': True}},
                 {'layoutId': 2, 'name': 'git', 'selected': {'mValue': False}}]
         }) as resp:
@@ -29,23 +28,30 @@ async def test_skills(url):
 
 
 @pytest.mark.asyncio
+async def test_roadmaps(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f'{url}/roadmaps?email=test@test.test') as resp:
+            assert resp.status == 200
+
+
+@pytest.mark.asyncio
 async def test_profile_known(url):
     async with aiohttp.ClientSession() as session:
-        async with session.get(f'{url}/profile/known?email=aaa@aaa.aaa') as resp:
+        async with session.get(f'{url}/profile/known?email=test@test.test') as resp:
             assert resp.status == 200
 
 
 @pytest.mark.asyncio
 async def test_profile_unknown(url):
     async with aiohttp.ClientSession() as session:
-        async with session.get(f'{url}/profile/unknown?email=aaa@aaa.aaa') as resp:
+        async with session.get(f'{url}/profile/unknown?email=test@test.test') as resp:
             assert resp.status == 200
 
 
 @pytest.mark.asyncio
 async def test_profile_score(url):
     async with aiohttp.ClientSession() as session:
-        async with session.get(f'{url}/profile/score?email=aaa@aaa.aaa') as resp:
+        async with session.get(f'{url}/profile/score?email=test@test.test') as resp:
             assert resp.status == 200
 
 
@@ -53,6 +59,13 @@ async def test_profile_score(url):
 async def test_profile_complete(url):
     async with aiohttp.ClientSession() as session:
         async with session.post(f'{url}/profile/complete', json={
-            'email': 'aaa@aaa.aaa', 'skill': 'git'
+            'email': 'test@test.test', 'skill': 'git'
         }) as resp:
+            assert resp.status == 200
+
+
+@pytest.mark.asyncio
+async def test_profile_courses(url):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(f'{url}/profile/courses?skill=python') as resp:
             assert resp.status == 200

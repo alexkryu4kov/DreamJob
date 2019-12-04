@@ -10,7 +10,7 @@ class CompleteDb(Db):
     async def select_unknown_save_time(self) -> int:
         await self._make_connection()
         unknown = await self._connection.fetch(
-            '''SELECT * FROM email_unknown WHERE email=$1 AND unknown=$2 ORDER BY save_time desc''',
+            '''SELECT save_time FROM email_unknown WHERE email=$1 AND unknown=$2 ORDER BY save_time desc''',
             self._request.email, self._request.skill
         )
         await self._close_connection()

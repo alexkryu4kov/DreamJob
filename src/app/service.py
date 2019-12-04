@@ -17,6 +17,7 @@ async def init_app():
     app.on_startup.append(settings.setup_vacancies_predictor)
     app.on_startup.append(settings.setup_skills_predictor)
     app.on_startup.append(settings.setup_profile_predictor)
+    app.on_startup.append(settings.setup_roadmaps_predictor)
 
     app.on_startup.append(settings.setup_db)
     app.on_shutdown.append(settings.on_shutdown)
